@@ -4,7 +4,6 @@ from django.db.models.signals import post_save
 from django.dispatch import receiver
 
 
-
 class CustomUser(AbstractUser):
 	is_student = models.BooleanField(default=False)
 	is_teacher = models.BooleanField(default=False)
@@ -12,6 +11,10 @@ class CustomUser(AbstractUser):
 
 	def __str__(self):
 		return f"{self.first_name} {self.last_name}"
+
+	class Meta:
+		verbose_name = "Пользователь"
+		verbose_name_plural = "Пользователи"
 
 
 class Student(models.Model):
@@ -33,7 +36,11 @@ class Employee(models.Model):
 	iin = models.IntegerField(blank=True, null=True)
 
 	def __str__(self):
-		return f"{CustomUser.__str__}"
+		return self.user.__str__()
+
+	class Meta:
+		verbose_name = "Сотрудник"
+		verbose_name_plural = "Сотрудники"
 
 
 @receiver(post_save, sender=CustomUser)
@@ -45,4 +52,3 @@ def create_user_employee(sender, instance, created, **kwargs):
 @receiver
 def save_user_profile(sender, instance, **kwargs):
 	instance.employee.save()
-
