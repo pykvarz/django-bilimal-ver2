@@ -52,3 +52,11 @@ def create_user_employee(sender, instance, created, **kwargs):
 @receiver
 def save_user_profile(sender, instance, **kwargs):
 	instance.employee.save()
+
+
+class NationList(models.Model):
+	name = models.CharField(max_length=200)
+
+	class Meta:
+		verbose_name = "Национальность"
+		verbose_name_plural = "Национальности"
