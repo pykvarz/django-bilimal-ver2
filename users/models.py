@@ -7,6 +7,7 @@ from django.dispatch import receiver
 class CustomUser(AbstractUser):
 	is_student = models.BooleanField(default=False)
 	is_teacher = models.BooleanField(default=False)
+	is_employee = models.BooleanField(default=False)
 	is_admin = models.BooleanField(default=False)
 
 	def __str__(self):

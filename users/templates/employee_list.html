@@ -1,0 +1,10 @@
+{% extends "base.html" %}
+
+{% block content %}
+<h1>Список сотрудников</h1>
+{% for teacher in teachers %}
+<p><a href="{% url 'employee_profile' teacher.pk %}">{{teacher}} {{teacher.employee.surname}}</a></p>
+
+
+{% endfor %}
+{% endblock content %}

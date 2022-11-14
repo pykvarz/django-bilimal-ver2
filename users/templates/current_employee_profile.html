@@ -1,0 +1,10 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div>
+{{current_employee}} {{current_employee.employee.surname}}
+{{current_employee.employee.bio}}
+<button><a href="">Редактировать</a></button>
+</div>
+
+{% endblock %}
