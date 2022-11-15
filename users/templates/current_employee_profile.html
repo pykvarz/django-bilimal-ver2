@@ -4,7 +4,7 @@
 <div>
 {{current_employee}} {{current_employee.employee.surname}}
 {{current_employee.employee.bio}}
-<button><a href="">Редактировать</a></button>
+<button><a href="{% url 'my_profile_update' %}">Редактировать</a></button>
 </div>
 
 {% endblock %}

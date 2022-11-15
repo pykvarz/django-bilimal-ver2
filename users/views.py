@@ -1,10 +1,11 @@
 from django.contrib.auth import login, authenticate
+from django.contrib.auth.decorators import login_required
 from django.contrib.auth.hashers import make_password
-from django.db.models.sql import AND
+from django.forms import modelformset_factory, inlineformset_factory
 from django.shortcuts import render, redirect, get_object_or_404
-from django.views.generic import CreateView, TemplateView, ListView, DetailView
+from django.views.generic import CreateView, TemplateView, ListView, DetailView, UpdateView
 
-from users.forms.user_form import EmployeeSignupForm
+from users.forms.user_form import EmployeeSignupForm, CurrentEmployeeUpdateCustomUserForm, CurrentEmployeeUpdateEmployeeForm, CustomUserUpdateMultiForm
 from users.helpers.last_id import get_last_id_employee
 from users.models import Employee, CustomUser
 
@@ -54,6 +55,23 @@ class CurrentEmployeeDetailView(DetailView):
 
 	def get_object(self, *args, **kwargs):
 		return get_object_or_404(CustomUser, id=self.request.user.id)
+
+
+class MyProfileUpdateView(UpdateView):
+	model = CustomUser
+	template_name = "current_employee_profile_update.html"
+	form_class = CustomUserUpdateMultiForm
+
+	def get_object(self, *args, **kwargs):
+		return get_object_or_404(CustomUser, id=self.request.user.id)
+
+	def get_form_kwargs(self):
+		kwargs = super(MyProfileUpdateView, self).get_form_kwargs()
+		kwargs.update(instance={
+			'user': self.object,
+			'profile': self.object.employee,
+		})
+		return kwargs
 
 
 class EmployeeMainMenu(TemplateView):
