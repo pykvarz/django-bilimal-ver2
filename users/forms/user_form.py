@@ -1,8 +1,7 @@
 from betterforms.multiform import MultiModelForm
 from django import forms
-from django.http import HttpResponseRedirect
 
-from users.models import CustomUser, Employee, NationList
+from users.models import CustomUser, Employee
 
 
 class EmployeeSignupForm(forms.ModelForm):
@@ -18,11 +17,10 @@ class CurrentEmployeeUpdateCustomUserForm(forms.ModelForm):
 
 
 class CurrentEmployeeUpdateEmployeeForm(forms.ModelForm):
-	nation = forms.ModelChoiceField(label="Национальность", widget=forms.Select(), queryset=NationList.objects.all())
 
 	class Meta:
 		model = Employee
-		fields = ["surname"]
+		fields = ["surname", "nation"]
 
 
 class CustomUserUpdateMultiForm(MultiModelForm):

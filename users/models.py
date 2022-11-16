@@ -16,6 +16,9 @@ class CustomUser(AbstractUser):
 	class Meta:
 		verbose_name = "Пользователь"
 		verbose_name_plural = "Пользователи"
+		permissions = (
+
+		)
 
 
 class Student(models.Model):
@@ -24,15 +27,19 @@ class Student(models.Model):
 
 class Employee(models.Model):
 	user = models.OneToOneField(CustomUser, on_delete=models.CASCADE, primary_key=True)
-	surname = models.CharField(max_length=50, blank=True)
+	surname = models.CharField(max_length=50, blank=True, verbose_name="Отчетсво")
 	bio = models.DateField(blank=True, null=True)
 	pob = models.CharField(max_length=100)
 	GENDER_CHOICES = (
 		("ml", "male"),
 		("fm", "female"),
 	)
+	NATION_CHOICES = (
+		("kazakh", "Казах/Казашка"),
+		("russian", "Русский/Русская")
+	)
 	gender = models.CharField(max_length=2, choices=GENDER_CHOICES, default="ml")
-	nation = models.CharField(max_length=100)
+	nation = models.CharField(max_length=100, choices=NATION_CHOICES, default="kazakh", verbose_name="Национальность")
 	citizenship = models.CharField(max_length=100)
 	iin = models.IntegerField(blank=True, null=True)
 
@@ -61,3 +68,6 @@ class NationList(models.Model):
 	class Meta:
 		verbose_name = "Национальность"
 		verbose_name_plural = "Национальности"
+
+	def __str__(self):
+		return self.name

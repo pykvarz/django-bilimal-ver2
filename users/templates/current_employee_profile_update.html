@@ -2,8 +2,8 @@
 
 {% block content %}
 <form action="" method="post">
-<!--{{ custom_user_form.as_p }}-->
-<!--{{ employee_update_form.as_p }}-->
+    {% csrf_token %}
     {{ form.as_p }}
+    <button type="submit">Сохранить</button>
 </form>
 {% endblock %}

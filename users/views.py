@@ -1,19 +1,12 @@
-from django.contrib.auth import login, authenticate
-from django.contrib.auth.decorators import login_required
+from django.contrib.auth import login
 from django.contrib.auth.hashers import make_password
-from django.forms import modelformset_factory, inlineformset_factory
-from django.shortcuts import render, redirect, get_object_or_404
+from django.shortcuts import redirect, get_object_or_404
+from django.urls import reverse_lazy
 from django.views.generic import CreateView, TemplateView, ListView, DetailView, UpdateView
 
-from users.forms.user_form import EmployeeSignupForm, CurrentEmployeeUpdateCustomUserForm, CurrentEmployeeUpdateEmployeeForm, CustomUserUpdateMultiForm
+from users.forms.user_form import EmployeeSignupForm, CustomUserUpdateMultiForm
 from users.helpers.last_id import get_last_id_employee
-from users.models import Employee, CustomUser
-
-
-# class ProfileCreateView(CreateView):
-# 	model = Employee
-# 	form = EmployeeProfileForm
-# 	template_name = "templates/employee_profile.html"
+from users.models import CustomUser
 
 
 class EmployeeCreateView(CreateView):
@@ -61,6 +54,7 @@ class MyProfileUpdateView(UpdateView):
 	model = CustomUser
 	template_name = "current_employee_profile_update.html"
 	form_class = CustomUserUpdateMultiForm
+	success_url = reverse_lazy("current_employee_detail")
 
 	def get_object(self, *args, **kwargs):
 		return get_object_or_404(CustomUser, id=self.request.user.id)
