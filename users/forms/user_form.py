@@ -1,7 +1,7 @@
 from betterforms.multiform import MultiModelForm
 from django import forms
 
-from users.models import CustomUser, Employee
+from users.models import CustomUser, Employee, EducationEmployee
 
 
 class EmployeeSignupForm(forms.ModelForm):
@@ -28,3 +28,9 @@ class CustomUserUpdateMultiForm(MultiModelForm):
 		"user": CurrentEmployeeUpdateCustomUserForm,
 		"profile": CurrentEmployeeUpdateEmployeeForm,
 	}
+
+
+class CreateUserEducation(forms.ModelForm):
+	class Meta:
+		model = EducationEmployee
+		fields = ["name", "year_of_admission", "year_of_ending", "speciality", "type_education", ]

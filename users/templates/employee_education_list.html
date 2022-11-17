@@ -1,0 +1,11 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div>
+    <h1>Образование</h1>
+    {% for item in educations %}
+    {{item.name}}
+    {% endfor %}
+    <a href="{% url 'user_education_create' %}">Добавить</a>
+    {% endblock %}
+</div>

@@ -51,15 +51,16 @@ class Employee(models.Model):
 		verbose_name_plural = "Сотрудники"
 
 
-@receiver(post_save, sender=CustomUser)
-def create_user_employee(sender, instance, created, **kwargs):
-	if created:
-		Employee.objects.create(user=instance)
+class EducationEmployee(models.Model):
+	name = models.CharField(max_length=255, blank=True, verbose_name="Название", null=True)
+	year_of_admission = models.DateField(null=True, blank=True, verbose_name="Год поступления")
+	year_of_ending = models.DateField(null=True, blank=True, verbose_name="Год окончания")
+	speciality = models.CharField(max_length=500, null=True, blank=True, verbose_name="Специальность")
+	type_education = models.CharField(max_length=500, null=True, blank=True, verbose_name="Образование")
+	user = models.ForeignKey(CustomUser, on_delete=models.CASCADE, related_name="educations")
 
-
-@receiver
-def save_user_profile(sender, instance, **kwargs):
-	instance.employee.save()
+	class Meta:
+		verbose_name = "Образование"
 
 
 class NationList(models.Model):
@@ -71,3 +72,17 @@ class NationList(models.Model):
 
 	def __str__(self):
 		return self.name
+
+
+@receiver(post_save, sender=CustomUser)
+def create_user_employee(sender, instance, created, **kwargs):
+	if created:
+		if CustomUser.is_employee:
+			Employee.objects.create(user=instance)
+			# EducationEmployee.objects.create(user=instance)
+
+
+@receiver
+def save_user_profile(sender, instance, **kwargs):
+	instance.employee.save()
+	# instance.educationemployee.save()

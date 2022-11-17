@@ -5,6 +5,7 @@
 {{current_employee}} {{current_employee.employee.surname}}
 {{current_employee.employee.bio}}
 <button><a href="{% url 'my_profile_update' %}">Редактировать</a></button>
+<button><a href="{% url 'user_education_list' %}">Образование</a></button>
 </div>
 
 {% endblock %}
