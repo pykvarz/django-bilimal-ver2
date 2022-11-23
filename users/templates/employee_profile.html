@@ -2,5 +2,6 @@
 
 {% block content %}
 {{ user_employee }} {{user_employee.employee.surname}}
+<a href="{% url 'user_education_list' user_employee.pk %}">Образование</a>
 
 {% endblock %}

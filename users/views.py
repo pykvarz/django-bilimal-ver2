@@ -16,8 +16,6 @@ class EmployeeCreateView(CreateView):
 
 	def form_valid(self, form):
 		instance = form.save(commit=False)
-		# new_user = CustomUser.objects.create(username=f"s130t{get_last_id_employee()}", password=make_password("123"), is_employee=True)
-		# new_user.save()
 		instance.username = f"s130t{get_last_id_employee()}"
 		instance.password = make_password("123")
 		instance.is_employee = True
@@ -73,21 +71,25 @@ class CreateUserEducationView(CreateView):
 	model = EducationEmployee
 	template_name = "create_user_education.html"
 	form_class = CreateUserEducation
+	success_url = reverse_lazy("employee_main_menu")
 
 	def form_valid(self, form):
 		instance = form.save(commit=False)
-		instance.user_id = self.request.user.id
+		instance.user_id = self.kwargs['user_id']
 		instance.save()
-		return redirect('user_education_list')
+		return super(CreateUserEducationView, self).form_valid(form)
 
 
 class UserEducationListView(ListView):
 	model = EducationEmployee
 	template_name = "employee_education_list.html"
+	context_object_name = "educations"
 
 	def get_context_data(self, **kwargs):
 		context = super(UserEducationListView, self).get_context_data(**kwargs)
-		context["educations"] = EducationEmployee.objects.filter(user_id=self.request.user.id)
+		context["educations"] = EducationEmployee.objects.filter(user_id=self.kwargs['pk'])
+		# context["educations"] = EducationEmployee.objects.filter(user_id=self.kwargs.get(self.pk_url_kwarg, None))
+		context["user"] = CustomUser.objects.get(pk=self.kwargs['pk'])
 		return context
 
 

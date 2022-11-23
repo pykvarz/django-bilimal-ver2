@@ -2,6 +2,7 @@ from django.contrib.auth.models import AbstractUser
 from django.db import models
 from django.db.models.signals import post_save
 from django.dispatch import receiver
+from django.urls import reverse, reverse_lazy
 
 
 class CustomUser(AbstractUser):
@@ -19,6 +20,9 @@ class CustomUser(AbstractUser):
 		permissions = (
 
 		)
+
+	def get_absolute_url(self):
+		return reverse('employee_profile', kwargs={'pk': self.pk})
 
 
 class Student(models.Model):
@@ -63,6 +67,9 @@ class EducationEmployee(models.Model):
 		verbose_name = "Образование"
 
 
+	# def get_absolute_url(self):
+	# 	return reverse_lazy("user_education_list", args=self.user.educations.pk)
+
 class NationList(models.Model):
 	name = models.CharField(max_length=200)
 
@@ -79,10 +86,10 @@ def create_user_employee(sender, instance, created, **kwargs):
 	if created:
 		if CustomUser.is_employee:
 			Employee.objects.create(user=instance)
-			# EducationEmployee.objects.create(user=instance)
+		# EducationEmployee.objects.create(user=instance)
 
 
 @receiver
 def save_user_profile(sender, instance, **kwargs):
 	instance.employee.save()
-	# instance.educationemployee.save()
+# instance.educationemployee.save()

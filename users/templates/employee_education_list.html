@@ -3,9 +3,9 @@
 {% block content %}
 <div>
     <h1>Образование</h1>
-    {% for item in educations %}
-    {{item.name}}
+    {% for education in educations %}
+    {{education.name}}
     {% endfor %}
-    <a href="{% url 'user_education_create' %}">Добавить</a>
+            <a href="{% url 'user_education_create' user.pk %}">Добавить</a>
     {% endblock %}
 </div>
