@@ -3,5 +3,6 @@
 {% block content %}
 {{ user_employee }} {{user_employee.employee.surname}}
 <a href="{% url 'user_education_list' user_employee.pk %}">Образование</a>
+<a href="{% url 'update_profile' user_employee.pk %}">Редактировать</a>
 
 {% endblock %}

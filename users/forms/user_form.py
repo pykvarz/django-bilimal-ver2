@@ -34,3 +34,9 @@ class CreateUserEducation(forms.ModelForm):
 	class Meta:
 		model = EducationEmployee
 		fields = ["name", "year_of_admission", "year_of_ending", "speciality", "type_education", ]
+
+
+class ProfileUpdateForm(forms.ModelForm):
+	class Meta:
+		model = CustomUser
+		fields = ["first_name", "last_name"]
